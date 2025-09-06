@@ -329,7 +329,7 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">Batas Waktu:</span>
-                            <span class="info-value countdown" id="countdown">02:00:00</span>
+                            <span class="info-value countdown" id="countdown">01:00:00</span>
                         </div>
                         <div class="expired-notice" id="expiredNotice">
                             Waktu pembayaran telah habis. Silakan mulai proses kembali.
@@ -420,7 +420,7 @@
                     clearInterval(countdownInterval);
                 }
                 
-                const duration = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+                const duration = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
                 
                 const updateCountdown = function() {
                     const now = new Date().getTime();
@@ -455,7 +455,7 @@
             if (savedStartTime) {
                 const startTime = parseInt(savedStartTime);
                 const now = new Date().getTime();
-                const duration = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+                const duration = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
                 const elapsed = now - startTime;
                 
                 if (elapsed < duration) {
