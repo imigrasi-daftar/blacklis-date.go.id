@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imigrasi Indonesia - Penghapusan Daftar Hitam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0052a4;
+            --secondary-color: #f0f0f0;
+            --accent-color: #e63946;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            padding-top: 20px;
+        }
+        
+        .header {
+            background-color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            max-height: 80px;
+            margin-right: 15px;
+        }
+        
+        .title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .main-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .alert-custom {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+        
+        .alert-custom i {
+            color: #856404;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-custom:hover {
+            background-color: #003d7a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-custom:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .payment-info {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-info h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .info-value {
+            font-weight: 600;
+        }
+        
+        .countdown {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .payment-code {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .code-text {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background-color: #003d7a;
+        }
+        
+        .copy-btn i {
+            margin-left: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+        
+        .expired-notice {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .btn-custom {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .payment-code {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .copy-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://kanimpekanbaru.kemenkumham.go.id/images/logo_gabunagan_imigrasi_imipas.png" alt="Logo Imigrasi Indonesia" class="logo">
+                <div>
+                    <h1 class="title">DIREKTORAT JENDERAL IMIGRASI</h1>
+                    <p class="subtitle">REPUBLIK INDONESIA</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-container">
+            <div class="alert-custom">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <strong>Pemberitahuan:</strong> Ternyata Anda sebelumnya belum membayar denda atas pelanggaran Anda ketika meninggalkan Indonesia. Saat ini penghapusan Anda akan diproses ketika Anda sudah berhasil melakukan pembayaran denda tempo dulu yang sempat belum terbayarkan.
+                </div>
+            </div>
+            
+            <div class="alert-custom">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Notice:</strong> It turns out that you have not previously paid the fine for your violation when leaving Indonesia. Currently, your removal will be processed when you have successfully made the payment for the previous fine that has not been paid.
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p>Silahkan klik tombol lanjut untuk menyelesaikan proses ini. Tinggal satu langkah lagi permohonan Anda selesai. Segera lakukan pembayaran atau pembayaran sebelumnya akan hangus dan dibatalkan oleh sistem secara otomatis.</p>
+                
+                <p>Please click the continue button to complete this process. Only one more step your application will be completed. Immediately make the payment or the previous payment will be forfeited and automatically canceled by the system.</p>
+                
+                <button id="paymentBtn" class="btn btn-custom mt-3">
+                    <span class="loading-spinner"></span>
+                    <span class="btn-text">Lanjut / Continue</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 Direktorat Jenderal Imigrasi Republik Indonesia. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Pembayaran Denda Pelanggaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="payment-info">
+                        <h5>Data Passport</h5>
+                        <div class="info-row">
+                            <span class="info-label">Nama / Name:</span>
+                            <span class="info-value">TEKIN ISA</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Tanggal Lahir / Date of Birth:</span>
+                            <span class="info-value">10.10.1984</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Kewarganegaraan / Nationality:</span>
+                            <span class="info-value">DEUTSCH</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Nomor Passport / Passport Number:</span>
+                            <span class="info-value">C7GMGVYMT</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Berlaku Hingga / Valid Until:</span>
+                            <span class="info-value">09.02.2032</span>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h5>Informasi Pembayaran</h5>
+                        <div class="info-row">
+                            <span class="info-label">Nominal Pembayaran:</span>
+                            <span class="info-value">Rp 2.003.500</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Batas Waktu:</span>
+                            <span class="info-value countdown" id="countdown">02:00:00</span>
+                        </div>
+                        <div class="expired-notice" id="expiredNotice">
+                            Waktu pembayaran telah habis. Silakan mulai proses kembali.
+                        </div>
+                    </div>
+                    
+                    <div class="payment-code">
+                        <div>
+                            <div class="info-label">Kode Pembayaran:</div>
+                            <div class="code-text">135036000032837773</div>
+                        </div>
+                        <button class="copy-btn" id="copyBtn">
+                            Salin <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> Segera lakukan pembayaran atau pembayaran sebelumnya akan hangus dan dibatalkan oleh sistem secara otomatis.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentBtn = document.getElementById('paymentBtn');
+            const loadingSpinner = paymentBtn.querySelector('.loading-spinner');
+            const btnText = paymentBtn.querySelector('.btn-text');
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            const copyBtn = document.getElementById('copyBtn');
+            const countdownElement = document.getElementById('countdown');
+            const expiredNotice = document.getElementById('expiredNotice');
+            
+            // Check if countdown is already running
+            const savedStartTime = localStorage.getItem('paymentStartTime');
+            let countdownInterval;
+            
+            // Payment button click handler
+            paymentBtn.addEventListener('click', function() {
+                // Show loading spinner
+                loadingSpinner.style.display = 'inline-block';
+                btnText.textContent = 'Memproses...';
+                paymentBtn.disabled = true;
+                
+                // Simulate processing time
+                setTimeout(function() {
+                    // Hide loading spinner
+                    loadingSpinner.style.display = 'none';
+                    btnText.textContent = 'Lanjut / Continue';
+                    paymentBtn.disabled = false;
+                    
+                    // Save start time to localStorage
+                    const startTime = new Date().getTime();
+                    localStorage.setItem('paymentStartTime', startTime);
+                    
+                    // Show payment modal
+                    paymentModal.show();
+                    
+                    // Start countdown
+                    startCountdown(startTime);
+                }, 2000);
+            });
+            
+            // Copy button click handler
+            copyBtn.addEventListener('click', function() {
+                const paymentCode = '135036000032837773';
+                navigator.clipboard.writeText(paymentCode).then(function() {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = 'Tersalin <i class="fas fa-check"></i>';
+                    
+                    setTimeout(function() {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                }).catch(function() {
+                    alert('Gagal menyalin kode. Silakan salin secara manual.');
+                });
+            });
+            
+            // Countdown timer function
+            function startCountdown(startTime) {
+                // Clear any existing interval
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+                
+                const duration = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+                
+                const updateCountdown = function() {
+                    const now = new Date().getTime();
+                    const elapsed = now - startTime;
+                    const remaining = duration - elapsed;
+                    
+                    if (remaining <= 0) {
+                        clearInterval(countdownInterval);
+                        countdownElement.textContent = "Waktu Habis";
+                        countdownElement.style.color = "red";
+                        expiredNotice.style.display = "block";
+                        localStorage.removeItem('paymentStartTime');
+                        return;
+                    }
+                    
+                    const hours = Math.floor(remaining / (1000 * 60 * 60));
+                    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                    
+                    countdownElement.textContent = 
+                        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                };
+                
+                // Update immediately
+                updateCountdown();
+                
+                // Update every second
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
+            
+            // If there's a saved start time, restore the countdown
+            if (savedStartTime) {
+                const startTime = parseInt(savedStartTime);
+                const now = new Date().getTime();
+                const duration = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+                const elapsed = now - startTime;
+                
+                if (elapsed < duration) {
+                    // Auto-open modal if countdown is still running
+                    paymentModal.show();
+                    startCountdown(startTime);
+                } else {
+                    // Remove expired countdown
+                    localStorage.removeItem('paymentStartTime');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
